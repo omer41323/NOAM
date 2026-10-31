@@ -38,7 +38,7 @@ environment variables: `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`.
 
 ## Hosting
 
-Connect this **private** GitHub repository to Vercel. Build: `npm run build`;
+Connect this GitHub repository to Vercel. Build: `npm run build`;
 output: `dist`. Set the two environment variables before deploying. Set the actual
 production URL as the Supabase Auth Site URL and allowed redirect URL. The public
 login page contains no personal records. Keep preview deployment protection on.

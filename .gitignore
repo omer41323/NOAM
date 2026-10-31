@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.vercel/
+.env*
+!.env.example
+private/
+*.zip
+*.log
+scripts/prepare-cloud.cjs
+
