@@ -2,3 +2,11 @@
 .auth-screen [hidden]{display:none!important}
 .account-settings{max-width:520px}.account-settings p{line-height:1.7}.account-settings .field{margin:16px 0}.account-settings input,.account-settings select{width:100%}.account-settings small{color:#646371;line-height:1.6}.account-setup{margin-top:28px;padding-top:20px;border-top:1px solid #e4d9cc}.account-settings [role=status]{min-height:24px;color:#487461}.auth-help{font-size:13px}.account-settings button{margin-top:8px}
 
+.auth-screen {background: radial-gradient(circle at 15% 16%, #ffe1cf, transparent 38%), radial-gradient(circle at 88% 82%, #fff0c6, transparent 42%), #fff5eb;}
+.auth-card {background: #fffdf8; border: 1px solid #efdfd3; box-shadow: 0 18px 65px #694b3818;}
+.auth-card h1 {font-family: Fredoka, Rubik, sans-serif; font-weight: 600; color: #49342f;}
+.auth-card p {color: #796c65;}
+.auth-brand {background: #ffdabf; color: #983e31; transform: rotate(-6deg);}
+.auth-card .field input {background: #fffdfa; border-color: #decabb;}
+.auth-help {color: #796c65;}
+
