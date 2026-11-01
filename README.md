@@ -15,7 +15,7 @@ npm run dev
 ```
 
 The preview runs at http://127.0.0.1:4174. Configure this exact origin in Supabase
-Auth redirect URLs for local login. Production builds on Vercel use the same two
+Auth redirect URLs for legacy email links. Production builds on Vercel use the same two
 environment variables: `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`.
 
 ## Private data
@@ -38,6 +38,28 @@ environment variables: `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`.
 
 ## Hosting
 
+Login uses a username and password, verified by Supabase Auth. No SMTP service
+is required. Existing sessions and workspace data are preserved. The account
+dialog lets signed-in users set their own password; the workspace owner can
+initialize only members previously approved by an administrator. Passwords are
+never stored in app data, browser storage, source control, or application logs.
+
+Apply `database/password-login.sql` once after the initial schema. Privately seed
+`login_accounts` with the approved username, existing membership email, workspace,
+and Auth user ID (if already registered). Only a deliberately designated owner
+gets `is_owner=true`. Account aliases and emails are inaccessible to client roles.
+Deploy `supabase/functions/account-access` with gateway JWT verification disabled:
+its public login action verifies the password with Supabase Auth, while profile
+and provisioning validate the caller token with `getUser` and server-owned roles.
+The Edge runtime supplies its service-role secret; never copy it into Vercel or
+the browser. Login is limited atomically to 10 attempts per name per 10 minutes.
+New accounts are confirmed by the owner through the Admin API; global email
+confirmation is not disabled. Existing accounts cannot be overwritten by setup.
+
+Without SMTP, forgotten-password recovery requires an administrator through the
+Supabase dashboard. A partial provisioning failure may require linking the newly
+created Auth user ID to its existing `login_accounts` record administratively.
+
 Connect this GitHub repository to Vercel. Build: `npm run build`;
 output: `dist`. Set the two environment variables before deploying. Set the actual
 production URL as the Supabase Auth Site URL and allowed redirect URL. The public
@@ -51,7 +73,7 @@ origins. The extracted `private/` directory is ignored and must never be committ
 
 `npm test` covers merges, conflicts, failed writes, CAS retries, backup integrity,
 public asset privacy, and the original annual calendar. Database access checks
-must also be run against the deployed Supabase project, and actual email login,
+must also be run against the deployed Supabase project, and actual password login,
 file upload/download, reload, and second-device behavior must be verified after
 deployment. `database/schema.sql` is an initial schema, not an idempotent reset.
 

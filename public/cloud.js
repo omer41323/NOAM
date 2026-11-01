@@ -158,9 +158,9 @@ const Cloud = window.Cloud = {
   if(!window.CLOUD_CONFIG?.url||!window.CloudVendor){fail('חיבור הענן עדיין אינו מוגדר.');return;}
   Cloud.client=CloudVendor.createClient(CLOUD_CONFIG.url,CLOUD_CONFIG.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'implicit'}});
   document.getElementById('auth-form').onsubmit=async event=>{
-    event.preventDefault();const button=document.getElementById('auth-submit');button.disabled=true;fail('שולח קישור כניסה…');
-    try{const {error}=await Cloud.client.auth.signInWithOtp({email:document.getElementById('auth-email').value.trim(),options:{emailRedirectTo:location.origin+'/'}});if(error)throw error;fail('קישור הכניסה נשלח לאימייל. אפשר לפתוח אותו במכשיר שבו רוצים לעבוד.');}
-    catch{fail('לא ניתן לשלוח קישור. בדקו את כתובת האימייל ונסו שוב בעוד דקה.');}finally{button.disabled=false;}
+    event.preventDefault();const button=document.getElementById('auth-submit');button.disabled=true;fail('נכנס למרחב העבודה…');
+    try{await CloudAccounts.login(document.getElementById('auth-username').value,document.getElementById('auth-password').value);document.getElementById('auth-password').value='';}
+    catch(error){fail(error.message||'לא ניתן להתחבר כרגע. בדקו את החיבור ונסו שוב.');}finally{button.disabled=false;}
   };
   async function enter(session){
     if(!session||Cloud.loaded||Cloud.entering)return;Cloud.entering=true;
